@@ -3,9 +3,14 @@
     <app-vocal-range-form (rangeSubmit)="onRangeSubmit($event)">
     </app-vocal-range-form>
 
+    <h2>Chest voice:</h2>
     <app-piano-keyboard
-      *ngIf="selectedRange"
-      [highlights]="getHighlightRanges()"
+      [highlights]="getChestVoiceHighlightRanges()"
+    ></app-piano-keyboard>
+    <br />
+    <h2>Head voice:</h2>
+    <app-piano-keyboard
+      [highlights]="getHeadVoiceHighlightRanges()"
     ></app-piano-keyboard>
   </div>
 </main>

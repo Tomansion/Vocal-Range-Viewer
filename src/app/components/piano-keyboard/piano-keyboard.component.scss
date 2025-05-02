@@ -59,7 +59,7 @@
     .black.highlighted {
       background-image: linear-gradient(
         to bottom,
-        black 0%,
+        rgb(208, 208, 208) 0%,
         var(--highlight-color, black) 70%
       );
       color: #c5c5c5;
