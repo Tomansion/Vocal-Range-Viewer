@@ -28,7 +28,6 @@ export class AppComponent {
 
   onRangeSubmit(range: VocalRange) {
     this.selectedRange = range;
-    console.log('Selected Range:', this.selectedRange);
   }
 
   getChestVoiceHighlightRanges(): HighlightRange[] {
@@ -90,8 +89,6 @@ export class AppComponent {
         color: 'red',
       });
     }
-
-    console.log(ranges);
 
     return ranges;
   }

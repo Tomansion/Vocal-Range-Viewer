@@ -1,15 +1,17 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { debounceTime } from 'rxjs/operators';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 
 export interface VocalRange {
   register1ExtremeHigh?: string;
@@ -38,13 +40,21 @@ export interface VocalRange {
   templateUrl: './vocal-range-form.component.html',
   styleUrls: ['./vocal-range-form.component.scss'],
 })
-export class VocalRangeFormComponent {
+export class VocalRangeFormComponent implements OnInit {
   @Output() rangeSubmit = new EventEmitter<VocalRange>();
-  constructor(private fb: FormBuilder) {}
 
   rangeForm!: FormGroup;
+  private isBrowser: boolean;
+
+  constructor(
+    private fb: FormBuilder,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit() {
+    // Build the form
     this.rangeForm = this.fb.group({
       register1ExtremeHigh: [''],
       register1High: ['G3'],
@@ -60,24 +70,35 @@ export class VocalRangeFormComponent {
       register2Low: ['A#2'],
     });
 
-    // Listen for form changes and emit the updated values
-    this.rangeForm.valueChanges.pipe(debounceTime(300)).subscribe((value) => {
-      if (this.rangeForm.valid) {
-        console.log('Form value changed:', value);
-
-        this.rangeSubmit.emit(value as VocalRange);
-      } else {
-        console.log('Form is invalid');
-        // Display the full error messages
-        Object.keys(this.rangeForm.controls).forEach((key) => {
-          const control = this.rangeForm.get(key);
-          if (control && control.invalid) {
-            console.log(`${key} is invalid:`, control.errors);
-          }
-        });
+    // Load from localStorage if in browser
+    if (this.isBrowser) {
+      const saved = localStorage.getItem('vocalRange');
+      if (saved) {
+        try {
+          this.rangeForm.patchValue(JSON.parse(saved));
+        } catch {
+          console.warn('Could not parse saved vocalRange');
+        }
       }
-    });
+    }
 
-    this.rangeSubmit.emit(this.rangeForm.value as VocalRange);
+    // On changes: debounce, then save & emit
+    this.rangeForm.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((value: VocalRange) => {
+        if (this.rangeForm.valid) {
+          if (this.isBrowser) {
+            localStorage.setItem('vocalRange', JSON.stringify(value));
+          }
+          this.rangeSubmit.emit(value);
+        }
+      });
+
+    // Emit initial value (and save once) if browser
+    const initial = this.rangeForm.value as VocalRange;
+    if (this.isBrowser) {
+      localStorage.setItem('vocalRange', JSON.stringify(initial));
+    }
+    this.rangeSubmit.emit(initial);
   }
 }
