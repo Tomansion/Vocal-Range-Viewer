@@ -1,0 +1,9 @@
+<form [formGroup]="rangeForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Low Note</mat-label>
+    <input matInput formControlName="lowNote" />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Show Range</button>
+</form>
+<mat-slide-toggle>Toggle me!</mat-slide-toggle>
