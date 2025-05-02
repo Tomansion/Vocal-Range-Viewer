@@ -1,5 +1,9 @@
-<div class="set" [style.--highlight-color]="highlightColor || 'red'">
-  <div class="keyPlacement" *ngFor="let note of notes">
+<div class="set">
+  <div
+    class="keyPlacement"
+    *ngFor="let note of notes"
+    [style.--highlight-color]="getHighlightColor(note)"
+  >
     <div
       class="black noselect"
       *ngIf="isBlackKey(note)"

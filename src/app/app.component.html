@@ -3,16 +3,9 @@
     <app-vocal-range-form (rangeSubmit)="onRangeSubmit($event)">
     </app-vocal-range-form>
 
-    <app-piano-keyboard *ngIf="selectedRange"> </app-piano-keyboard>
     <app-piano-keyboard
-      highlightColor="red"
-      highlightFrom="C4"
-      highlightTo="C5"
-    ></app-piano-keyboard>
-    <app-piano-keyboard
-      highlightColor="blue"
-      highlightFrom="C2"
-      highlightTo="C8"
+      *ngIf="selectedRange"
+      [highlights]="getHighlightRanges()"
     ></app-piano-keyboard>
   </div>
 </main>

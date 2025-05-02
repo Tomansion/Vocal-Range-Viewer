@@ -1,4 +1,4 @@
-<form [formGroup]="rangeForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="rangeForm">
   <h2>Vocal Range Map</h2>
 
   <!-- Register 1: Chest Voice -->
@@ -55,6 +55,4 @@
       <input matInput formControlName="register2Low" />
     </mat-form-field>
   </fieldset>
-
-  <button mat-raised-button color="primary" type="submit">Show Range</button>
 </form>

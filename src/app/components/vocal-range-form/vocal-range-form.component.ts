@@ -1,4 +1,3 @@
-// vocal-range-form.component.ts
 import { Component, EventEmitter, Output } from '@angular/core';
 import {
   FormBuilder,
@@ -10,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { debounceTime } from 'rxjs/operators';
 
 export interface VocalRange {
   register1ExtremeHigh: string;
@@ -54,11 +54,14 @@ export class VocalRangeFormComponent {
       register2Mid: ['D4', Validators.required],
       register2Low: ['B3', Validators.required],
     });
-  }
 
-  onSubmit() {
-    if (this.rangeForm.valid) {
-      this.rangeSubmit.emit(this.rangeForm.value as VocalRange);
-    }
+    // Listen for form changes and emit the updated values
+    this.rangeForm.valueChanges.pipe(debounceTime(300)).subscribe((value) => {
+      if (this.rangeForm.valid) {
+        console.log('Form value changed:', value);
+
+        this.rangeSubmit.emit(value as VocalRange);
+      }
+    });
   }
 }

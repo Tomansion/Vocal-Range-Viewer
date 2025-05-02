@@ -1,6 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+export interface HighlightRange {
+  from: string;
+  to: string;
+  color: string;
+}
+
 @Component({
   selector: 'app-piano-keyboard',
   standalone: true,
@@ -9,14 +15,12 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./piano-keyboard.component.scss'],
 })
 export class PianoKeyboardComponent {
-  @Input() highlightFrom?: string;
-  @Input() highlightTo?: string;
-  @Input() highlightColor?: string;
+  @Input() highlights: HighlightRange[] = [];
 
   notes = this.generateNotes();
 
   private generateNotes(): string[] {
-    const octaves = 8; // From C1 to C8
+    const octaves = 8;
     const baseNotes = [
       'C',
       'C#',
@@ -32,35 +36,31 @@ export class PianoKeyboardComponent {
       'B',
     ];
     const notes: string[] = [];
-
     for (let octave = 1; octave <= octaves; octave++) {
-      for (const note of baseNotes) {
-        notes.push(`${note}${octave}`);
-      }
+      baseNotes.forEach((n) => notes.push(`${n}${octave}`));
     }
-
     return notes;
-  }
-
-  isHighlighted(note: string): boolean {
-    if (!this.highlightFrom || !this.highlightTo) return false;
-
-    const fromIdx = this.notes.indexOf(this.highlightFrom);
-    const toIdx = this.notes.indexOf(this.highlightTo);
-    const idx = this.notes.indexOf(note);
-    return idx >= fromIdx && idx <= toIdx;
-  }
-
-  getNoteClass(note: string): { [key: string]: boolean } {
-    const noteClass = note.toLowerCase().replace('#', 's');
-    return {
-      white: !note.includes('#'),
-      black: note.includes('#'),
-      [noteClass]: true,
-    };
   }
 
   isBlackKey(note: string): boolean {
     return note.includes('#');
+  }
+
+  private inRange(idx: number, start: string, end: string): boolean {
+    const i0 = this.notes.indexOf(start);
+    const i1 = this.notes.indexOf(end);
+    return i0 >= 0 && i1 >= 0 && idx >= i0 && idx <= i1;
+  }
+
+  getHighlightColor(note: string): string {
+    const idx = this.notes.indexOf(note);
+    for (const h of this.highlights) {
+      if (this.inRange(idx, h.from, h.to)) return h.color;
+    }
+    return '';
+  }
+
+  isHighlighted(note: string): boolean {
+    return !!this.getHighlightColor(note);
   }
 }
