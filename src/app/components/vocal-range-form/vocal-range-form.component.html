@@ -1,9 +1,60 @@
 <form [formGroup]="rangeForm" (ngSubmit)="onSubmit()">
-  <mat-form-field appearance="fill">
-    <mat-label>Low Note</mat-label>
-    <input matInput formControlName="lowNote" />
-  </mat-form-field>
+  <h2>Vocal Range Map</h2>
+
+  <!-- Register 1: Chest Voice -->
+  <fieldset>
+    <legend>Register 1 (Chest Voice)</legend>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Extreme High</mat-label>
+      <input matInput formControlName="register1ExtremeHigh" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>High</mat-label>
+      <input matInput formControlName="register1High" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Mid</mat-label>
+      <input matInput formControlName="register1Mid" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Low</mat-label>
+      <input matInput formControlName="register1Low" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Sub-low (Fry)</mat-label>
+      <input matInput formControlName="register1Fry" />
+    </mat-form-field>
+  </fieldset>
+
+  <!-- Register 2: Head Voice -->
+  <fieldset>
+    <legend>Register 2 (Head Voice)</legend>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Extreme High</mat-label>
+      <input matInput formControlName="register2ExtremeHigh" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>High</mat-label>
+      <input matInput formControlName="register2High" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Mid</mat-label>
+      <input matInput formControlName="register2Mid" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Low</mat-label>
+      <input matInput formControlName="register2Low" />
+    </mat-form-field>
+  </fieldset>
 
   <button mat-raised-button color="primary" type="submit">Show Range</button>
 </form>
-<mat-slide-toggle>Toggle me!</mat-slide-toggle>

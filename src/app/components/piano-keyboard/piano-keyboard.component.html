@@ -1,1 +1,18 @@
-<p>piano-keyboard works!</p>
+<ul class="set" [style.--highlight-color]="highlightColor || 'red'">
+  <div class="keyPlacement" *ngFor="let note of notes">
+    <div
+      class="black noselect"
+      *ngIf="isBlackKey(note)"
+      [class.highlighted]="isHighlighted(note)"
+    >
+      {{ note }}
+    </div>
+    <div
+      class="white noselect"
+      *ngIf="!isBlackKey(note)"
+      [class.highlighted]="isHighlighted(note)"
+    >
+      {{ note }}
+    </div>
+  </div>
+</ul>

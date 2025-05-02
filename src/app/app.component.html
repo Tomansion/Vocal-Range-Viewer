@@ -1,12 +1,19 @@
 <main class="main">
   <div class="content">
-    <!-- here you can either hard-code your two components… -->
-    <app-vocal-range-form></app-vocal-range-form>
-    <app-piano-keyboard></app-piano-keyboard>
-    <!-- [lowNote]="selected.lowNote"
-  [highNote]="selected.highNote"
-  [chestEnd]="selected.chestEnd"
-  [headStart]="selected.headStart"> -->
+    <app-vocal-range-form (rangeSubmit)="onRangeSubmit($event)">
+    </app-vocal-range-form>
+
+    <app-piano-keyboard *ngIf="selectedRange"> </app-piano-keyboard>
+    <app-piano-keyboard
+      highlightColor="red"
+      highlightFrom="C4"
+      highlightTo="C5"
+    ></app-piano-keyboard>
+    <app-piano-keyboard
+      highlightColor="blue"
+      highlightFrom="C2"
+      highlightTo="C8"
+    ></app-piano-keyboard>
   </div>
 </main>
 
