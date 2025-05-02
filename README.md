@@ -30,4 +30,6 @@ ng build --prod
 
 ```bash
 docker build -t vocal-range-viewer .
+
+docker run -p 80:80 vocal-range-viewer
 ```

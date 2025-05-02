@@ -8,6 +8,6 @@ RUN npm run build --prod
 
 # Stage 2: serve
 FROM nginx:stable-alpine
-COPY --from=build /app/dist/vocal-range-viewer /usr/share/nginx/html
+COPY --from=build /app/dist/vocal-range-viewer/browser /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
