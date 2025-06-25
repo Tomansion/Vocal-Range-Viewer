@@ -19,6 +19,31 @@ export class PianoKeyboardComponent {
 
   notes = this.generateNotes();
 
+  // Converts English note names to French notation
+  noteAngloToFr(note: string): string {
+    const map: Record<string, string> = {
+      C: 'Do',
+      'C#': 'Do#',
+      D: 'Ré',
+      'D#': 'Ré#',
+      E: 'Mi',
+      F: 'Fa',
+      'F#': 'Fa#',
+      G: 'Sol',
+      'G#': 'Sol#',
+      A: 'La',
+      'A#': 'La#',
+      B: 'Si',
+    };
+    const regex = /([A-G]#?)(\d+)/;
+    const match = regex.exec(note);
+    if (!match) return note;
+    const base = match[1];
+    const octave = match[2];
+    return `${map[base] || base}${octave}`;
+  }
+
+  // Generates the list of notes (C1, C#1, ..., B8)
   private generateNotes(): string[] {
     const octaves = 8;
     const baseNotes = [

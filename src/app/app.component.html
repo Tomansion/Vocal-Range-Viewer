@@ -3,15 +3,30 @@
     <app-vocal-range-form (rangeSubmit)="onRangeSubmit($event)">
     </app-vocal-range-form>
 
-    <h2>Chest voice:</h2>
-    <app-piano-keyboard
-      [highlights]="getChestVoiceHighlightRanges()"
-    ></app-piano-keyboard>
-    <br />
-    <h2>Head voice:</h2>
-    <app-piano-keyboard
-      [highlights]="getHeadVoiceHighlightRanges()"
-    ></app-piano-keyboard>
+    <div class="keyboards">
+      <div class="voice chestVoice">
+        <h2>
+          Voix de
+          <span class="line-break-mobile"><br /></span>
+          poitrine :
+        </h2>
+        <app-piano-keyboard
+          [highlights]="getChestVoiceHighlightRanges()"
+        ></app-piano-keyboard>
+      </div>
+      <div class="voice headVoice">
+        <h2>
+          Voix de
+          <span class="line-break-mobile"><br /></span>
+          tête :
+        </h2>
+        <app-piano-keyboard
+          [highlights]="getHeadVoiceHighlightRanges()"
+        ></app-piano-keyboard>
+      </div>
+    </div>
+
+    <a href="https://github.com/Tomansion/Vocal-Range-Viewer">GitHub</a>
   </div>
 </main>
 

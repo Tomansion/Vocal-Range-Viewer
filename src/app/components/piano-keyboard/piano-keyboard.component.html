@@ -1,7 +1,7 @@
 <div class="set">
   <div
     class="keyPlacement"
-    *ngFor="let note of notes"
+    *ngFor="let note of notes; let i = index"
     [style.--highlight-color]="getHighlightColor(note)"
   >
     <div
@@ -9,14 +9,14 @@
       *ngIf="isBlackKey(note)"
       [class.highlighted]="isHighlighted(note)"
     >
-      {{ note }}
+      {{ noteAngloToFr(note) }}
     </div>
     <div
       class="white noselect"
       *ngIf="!isBlackKey(note)"
       [class.highlighted]="isHighlighted(note)"
     >
-      {{ note }}
+      {{ noteAngloToFr(note) }}
     </div>
   </div>
 </div>

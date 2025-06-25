@@ -1,10 +1,5 @@
 form {
   max-width: 700px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  background: #fafafa;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 
   display: flex;
   flex-direction: column;
@@ -13,6 +8,7 @@ form {
   .registers {
     display: flex;
     gap: 3rem;
+
     h2 {
       text-align: center;
       margin-bottom: 1.5rem;
@@ -44,6 +40,23 @@ form {
       mat-form-field {
         width: 100%;
       }
+    }
+  }
+}
+
+.mat-mdc-form-field-error {
+  position: absolute;
+  text-align: left;
+}
+
+@media (max-width: 600px) {
+  .registers {
+    flex-direction: column;
+    gap: 1.5rem;
+
+    fieldset {
+      grid-template-columns: 1fr;
+      padding: 0.5rem;
     }
   }
 }

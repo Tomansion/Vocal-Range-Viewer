@@ -1,71 +1,158 @@
 <form [formGroup]="rangeForm">
-  <h2>Vocal Range Map</h2>
+  <h2>Cartographie de la voix</h2>
 
-  <!-- Register 1: Chest Voice -->
+  <!-- Registre 1 : Voix de poitrine -->
   <div class="registers">
     <fieldset>
-      <legend>Register 1 (Chest Voice)</legend>
+      <legend>Registre 1 (Voix de poitrine)</legend>
 
       <mat-form-field appearance="fill">
-        <mat-label>Extreme High stop</mat-label>
-        <input matInput formControlName="register1ExtremeHigh" />
+        <mat-label>Sur-aigu</mat-label>
+        <input
+          matInput
+          formControlName="register1ExtremeHigh"
+          placeholder="ex: Ré5"
+        />
+        <mat-error
+          *ngIf="rangeForm.get('register1ExtremeHigh')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>High stop</mat-label>
-        <input matInput formControlName="register1High" />
+        <mat-label>Aigu</mat-label>
+        <input
+          matInput
+          formControlName="register1High"
+          placeholder="ex: Sol3"
+        />
+        <mat-error
+          *ngIf="rangeForm.get('register1High')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
 
-      <div class="note">Big passage</div>
+      <div class="note">Grand passage</div>
       <mat-form-field appearance="fill">
-        <mat-label>Mid stop</mat-label>
-        <input matInput formControlName="register1MidStop" />
+        <mat-label>Médium (fin)</mat-label>
+        <input
+          matInput
+          formControlName="register1MidStop"
+          placeholder="ex: La#2"
+        />
+        <mat-error
+          *ngIf="rangeForm.get('register1MidStop')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Mid start</mat-label>
-        <input matInput formControlName="register1MidStart" />
+        <mat-label>Médium (début)</mat-label>
+        <input
+          matInput
+          formControlName="register1MidStart"
+          placeholder="ex: Si1"
+        />
+        <mat-error
+          *ngIf="rangeForm.get('register1MidStart')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
-      <div class="note">Small passage</div>
+      <div class="note">Petit passage</div>
 
       <mat-form-field appearance="fill">
-        <mat-label>Low stop</mat-label>
-        <input matInput formControlName="register1Low" />
+        <mat-label>Grave</mat-label>
+        <input matInput formControlName="register1Low" placeholder="ex: Sol1" />
+        <mat-error
+          *ngIf="rangeForm.get('register1Low')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>Sub-low (Fry) stop</mat-label>
-        <input matInput formControlName="register1Fry" />
+        <mat-label>Infra-Grave (Fry)</mat-label>
+        <input matInput formControlName="register1Fry" placeholder="ex: Mi1" />
+        <mat-error
+          *ngIf="rangeForm.get('register1Fry')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
     </fieldset>
 
-    <!-- Register 2: Head Voice -->
+    <!-- Registre 2 : Voix de tête -->
     <fieldset>
-      <legend>Register 2 (Head Voice)</legend>
+      <legend>Registre 2 (Voix de tête)</legend>
 
       <mat-form-field appearance="fill">
-        <mat-label>Extreme High stop</mat-label>
-        <input matInput formControlName="register2ExtremeHigh" />
+        <mat-label>Sur-aigu</mat-label>
+        <input
+          matInput
+          formControlName="register2ExtremeHigh"
+          placeholder="ex: Ré5"
+        />
+        <mat-error
+          *ngIf="rangeForm.get('register2ExtremeHigh')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
-        <mat-label>High stop</mat-label>
-        <input matInput formControlName="register2High" />
+        <mat-label>Aigu</mat-label>
+        <input
+          matInput
+          formControlName="register2High"
+          placeholder="ex: Do#4"
+        />
+        <mat-error
+          *ngIf="rangeForm.get('register2High')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
 
-      <div class="note">Big passage</div>
+      <div class="note">Grand passage</div>
       <mat-form-field appearance="fill">
-        <mat-label>Mid stop</mat-label>
-        <input matInput formControlName="register2MidStop" />
+        <mat-label>Médium (fin)</mat-label>
+        <input
+          matInput
+          formControlName="register2MidStop"
+          placeholder="ex: Sol#3"
+        />
+        <mat-error
+          *ngIf="rangeForm.get('register2MidStop')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
-        <mat-label>Mid start</mat-label>
-        <input matInput formControlName="register2MidStart" />
+        <mat-label>Médium (début)</mat-label>
+        <input
+          matInput
+          formControlName="register2MidStart"
+          placeholder="ex: Do3"
+        />
+        <mat-error
+          *ngIf="rangeForm.get('register2MidStart')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
-      <div class="note">Small passage</div>
+      <div class="note">Petit passage</div>
 
       <mat-form-field appearance="fill">
-        <mat-label>Low stop</mat-label>
-        <input matInput formControlName="register2Low" />
+        <mat-label>Grave</mat-label>
+        <input matInput formControlName="register2Low" placeholder="ex: La#2" />
+        <mat-error
+          *ngIf="rangeForm.get('register2Low')?.hasError('invalidNote')"
+        >
+          Note inconnue. Utilisez la notation française (ex: Ré5, Sol#3, Mi1)
+        </mat-error>
       </mat-form-field>
     </fieldset>
   </div>

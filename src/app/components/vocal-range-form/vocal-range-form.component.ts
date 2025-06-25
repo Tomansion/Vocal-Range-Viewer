@@ -12,6 +12,7 @@ import {
   OnInit,
   PLATFORM_ID,
 } from '@angular/core';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export interface VocalRange {
   register1ExtremeHigh?: string;
@@ -25,6 +26,20 @@ export interface VocalRange {
   register2MidStart?: string;
   register2MidStop?: string;
   register2Low?: string;
+}
+
+// Validator for French note names (Do, Ré, Mi, ... with/without accent, any case, with optional #, octave 1-8)
+export function frenchNoteValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    // Accept: Do, Do#, Ré, Re, Ré#, Re#, Mi, Fa, Fa#, Sol, Sol#, La, La#, Si (any case, with/without accent), octave 1-8
+    const regex = /^(do#?|ré#?|re#?|mi|fa#?|sol#?|la#?|si)([1-8])$/i;
+    if (regex.test(value.normalize('NFD').replace(/[\u0300-\u036f]/g, ''))) {
+      return null;
+    }
+    return { invalidNote: true };
+  };
 }
 
 @Component({
@@ -54,20 +69,20 @@ export class VocalRangeFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Build the form
+    // Build the form with default values in French notation (Do, Ré, Mi, ...)
     this.rangeForm = this.fb.group({
-      register1ExtremeHigh: [''],
-      register1High: ['G3'],
-      register1MidStop: ['A#2'],
-      register1MidStart: ['B1'],
-      register1Low: ['G1'],
-      register1Fry: ['E1'],
+      register1ExtremeHigh: ['', [frenchNoteValidator()]],
+      register1High: ['Sol3', [frenchNoteValidator()]],
+      register1MidStop: ['La#2', [frenchNoteValidator()]],
+      register1MidStart: ['Si1', [frenchNoteValidator()]],
+      register1Low: ['Sol1', [frenchNoteValidator()]],
+      register1Fry: ['Mi1', [frenchNoteValidator()]],
 
-      register2ExtremeHigh: [''],
-      register2High: ['C#4'],
-      register2MidStop: ['G#3'],
-      register2MidStart: ['C3'],
-      register2Low: ['A#2'],
+      register2ExtremeHigh: ['', [frenchNoteValidator()]],
+      register2High: ['Do#4', [frenchNoteValidator()]],
+      register2MidStop: ['Sol#3', [frenchNoteValidator()]],
+      register2MidStart: ['Do3', [frenchNoteValidator()]],
+      register2Low: ['La#2', [frenchNoteValidator()]],
     });
 
     // Load from localStorage if in browser
@@ -75,14 +90,28 @@ export class VocalRangeFormComponent implements OnInit {
       const saved = localStorage.getItem('vocalRange');
       if (saved) {
         try {
-          this.rangeForm.patchValue(JSON.parse(saved));
+          const parsed = JSON.parse(saved);
+          // Check if any value contains English notation (A, B, C, D, E, F, G)
+          const englishNoteRegex = /\b([A-G])(#|b)?\d\b/;
+          const hasEnglish = Object.values(parsed).some(
+            (v) => typeof v === 'string' && englishNoteRegex.test(v)
+          );
+          if (!hasEnglish) {
+            // French notation detected, patch the form (patching means updating only the values that are present)
+            this.rangeForm.patchValue(parsed);
+          } else {
+            // Ignore if English notation is detected
+            console.warn(
+              'English notation detected, ignoring saved vocalRange'
+            );
+          }
         } catch {
           console.warn('Could not parse saved vocalRange');
         }
       }
     }
 
-    // On changes: debounce, then save & emit
+    // On changes: debounce (witch prevents too many updates), validate, and emit
     this.rangeForm.valueChanges
       .pipe(debounceTime(300))
       .subscribe((value: VocalRange) => {
